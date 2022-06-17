@@ -91,7 +91,7 @@ def next_stock_batch(batch_size, n_steps, df_base):
 in_size, hidden_size, batch_size, num_layers, seq_length = 19, 10, 32, 15, 32
 model = RNN(in_size, hidden_size, batch_size, num_layers, seq_length)
 
-criterion = nn.MSELoss()
+criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.003) 
 
 
@@ -104,6 +104,7 @@ for epoch in range(epochs):
 
     optimizer.zero_grad()
     prediction_train = model.forward(features_train)
+    print(prediction_train.shape, target_train.shape)
     loss_train = criterion(prediction_train, target_train)
     loss_train.backward()
     optimizer.step()
