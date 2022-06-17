@@ -18,7 +18,7 @@ class RNN(nn.Module):
 
         # linear layers
         self.fc1 = nn.Linear(self.batch_size*self.hidden_size, 1024)
-        self.fc2 = nn.Linear(1024, self.batch_size*self.seq_len)
+        self.fc2 = nn.Linear(1024, self.batch_size)
 
     def forward(self, x):
         h_0 = torch.zeros((self.num_layers, self.batch_size, self.hidden_size))
