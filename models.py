@@ -23,6 +23,18 @@ class Recurrent_Neural_Network_1(nn.Module):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 class Recurrent_Neural_Network_2(nn.Module):
      def __init__(self, in_size, hidden_size, batch_size, num_layers, seq_len):
           super().__init__()

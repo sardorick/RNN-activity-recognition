@@ -53,19 +53,20 @@ df = df.dropna()
 
 def next_stock_batch(batch_size, n_steps, df_base):
 
-    features = df_base.iloc[:, :].values 
-    starting_point = np.random.randint(0, len(df_base)-n_steps-1,  batch_size)
+     features = df_base.iloc[:, :].values 
+     starting_point = np.random.randint(0, len(df_base)-n_steps-1,  batch_size)
 
-    x, y = [], []
+     x, y = [], []
 
-    for i in starting_point:
-        sequence = features[i:i+n_steps-1,  :]
-        target   = features[i+1:i+n_steps+1, -1]
+     for i in starting_point:
+          sequence = features[i:i+n_steps-1,  :]
+          target   = features[i+1:i+n_steps+1, -1]
+          
 
-        x.append(sequence)
-        y.append(target)
+          x.append(sequence)
+          y.append(target)
 
-    return np.array(x), np.array(y)
+     return np.array(x), np.array(y)
 
 
 
@@ -83,17 +84,17 @@ def next_stock_batch(batch_size, n_steps, df_base):
 
 
 
-# in_size, hid_size, n_layers, batch_size, seq_length = 18, 20, 25, 64, 100
-# model = Recurrent_Neural_Network_1(in_size, hid_size, n_layers, batch_size, seq_length)
+in_size, hid_size, n_layers, batch_size, seq_length = 18, 20, 25, 64, 100
+model = Recurrent_Neural_Network_1(in_size, hid_size, n_layers, batch_size, seq_length)
 
-in_size, hidden_size, batch_size, num_layers, seq_length = 18, 10, 32, 15, 100
-model = Recurrent_Neural_Network_2(in_size, hidden_size, batch_size, num_layers, seq_length)
+# in_size, hidden_size, batch_size, num_layers, seq_length = 18, 10, 32, 15, 100
+# model = Recurrent_Neural_Network_2(in_size, hidden_size, batch_size, num_layers, seq_length)
 
-criterion = nn.MSELoss()
+criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.003) 
 
 
-all_train_losses, all_test_losses, epochs = [], [], 50
+all_train_losses, all_test_losses, epochs = [], [], 250
 
 for epoch in range(epochs):
     train_losses = 0 
@@ -127,6 +128,8 @@ for epoch in range(epochs):
     print(f' {epoch+1:3}/{epochs}  Train loss :    {average_train_losses:.10f}     |     Test Loss  : {average_test_losses:.10f}')
 
 
+torch.save({ "model_state": model.state_dict(), 'in_size' : 18, 'hid_size' : 20, 'n_layers' : 25, 'batch_size' : 64, 'seq_length' : 500 }, 'trained_model')
+
 plt.plot(all_train_losses, label='train loss') 
 plt.plot(all_test_losses,  label='test loss') 
 plt.legend()
@@ -147,40 +150,3 @@ plt.show()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'tBodyAcc-Mean-1'
-'tGravityAcc-Mean-1'
-'tBodyAccJerk-Mean-1'
-'tBodyGyro-Mean-1'
-'tBodyGyroJerk-Mean-1'
-'tBodyAccMag-Mean-1'
-'tGravityAccMag-Mean-1'
-'tBodyAccJerkMag-Mean-1'
-'tBodyGyroMag-Mean-1'
-'tBodyGyroJerkMag-Mean-1'
-'fBodyAcc-XYZ-Mean-1'
-'fBodyAccJerk-XYZ-Mean-1'
-'fBodyGyro-XYZ-Mean-1'
-'fBodyAccMag-Mean-1'
-'fBodyAccJerkMag-Mean-1'
-'fBodyGyroMag-Mean-1'
-'fBodyGyroJerkMag-Mean-1'
